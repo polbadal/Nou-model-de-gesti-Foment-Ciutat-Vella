@@ -1,0 +1,1697 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Portal d'adopció del model | Foment de Ciutat</title>
+  <style>
+    :root {
+      --ink: #111111;
+      --muted: #606060;
+      --line: #dedede;
+      --paper: #f7f7f5;
+      --surface: #ffffff;
+      --teal: #e30613;
+      --teal-soft: #fde7e8;
+      --blue: #111111;
+      --blue-soft: #eeeeee;
+      --amber: #9b1521;
+      --amber-soft: #f8dcdf;
+      --green: #303030;
+      --green-soft: #eeeeee;
+      --rose: #c40018;
+      --rose-soft: #fae1e4;
+      --violet: #6e6e6e;
+      --violet-soft: #ededed;
+      --slate: #3a3a3a;
+      --shadow: 0 18px 46px rgba(0, 0, 0, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 15px;
+      letter-spacing: 0;
+    }
+
+    button,
+    select,
+    input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 292px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 22px 18px;
+      border-right: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(16px);
+      overflow: auto;
+    }
+
+    .brand {
+      display: grid;
+      gap: 10px;
+      padding: 4px 4px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand-logo {
+      width: 170px;
+      max-width: 100%;
+      min-height: 62px;
+      display: flex;
+      align-items: center;
+    }
+
+    .brand-logo img {
+      display: block;
+      width: 170px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .brand span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .side-label {
+      display: block;
+      margin: 18px 4px 9px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .tabs {
+      display: grid;
+      gap: 8px;
+    }
+
+    .tab {
+      width: 100%;
+      min-height: 58px;
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid transparent;
+      border-radius: 8px;
+      padding: 9px 10px;
+      background: transparent;
+      color: var(--ink);
+      text-align: left;
+    }
+
+    .tab:hover,
+    .tab:focus-visible {
+      border-color: var(--line);
+      background: #fff;
+      outline: none;
+    }
+
+    .tab.active {
+      border-color: rgba(20, 125, 115, 0.36);
+      background: var(--teal-soft);
+      box-shadow: inset 4px 0 0 var(--teal);
+    }
+
+    .tab-symbol {
+      width: 28px;
+      height: 28px;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tab-title {
+      display: block;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .tab-subtitle {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.2;
+    }
+
+    .criterion-box,
+    .source-box {
+      margin-top: 18px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.78);
+      padding: 14px;
+    }
+
+    .criterion-box strong {
+      display: block;
+      font-size: 20px;
+      line-height: 1.1;
+    }
+
+    .criterion-box p,
+    .source-box p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .source-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .source-item:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .source-item b {
+      color: var(--ink);
+      font-size: 12px;
+    }
+
+    .main {
+      min-width: 0;
+      padding: 24px 28px 42px;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: minmax(320px, 1fr) minmax(320px, 520px);
+      gap: 22px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow {
+      margin: 0 0 7px;
+      color: var(--teal);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 830px;
+      margin: 0;
+      font-size: 46px;
+      line-height: 1.03;
+      font-weight: 800;
+    }
+
+    .subtitle {
+      max-width: 850px;
+      margin: 13px 0 0;
+      color: var(--muted);
+      font-size: 16px;
+      line-height: 1.52;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.84);
+      box-shadow: var(--shadow);
+    }
+
+    .control {
+      display: grid;
+      gap: 5px;
+    }
+
+    .control label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    select,
+    input[type="search"] {
+      width: 100%;
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 8px 10px;
+    }
+
+    .screen-header {
+      display: grid;
+      grid-template-columns: minmax(300px, 1fr) minmax(260px, 360px);
+      gap: 18px;
+      margin-bottom: 18px;
+      align-items: stretch;
+    }
+
+    .screen-title {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 20px;
+    }
+
+    .screen-title h2 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.08;
+    }
+
+    .screen-title p {
+      max-width: 870px;
+      margin: 10px 0 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .audience {
+      display: inline-flex;
+      align-items: center;
+      min-height: 27px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      padding: 5px 10px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .score-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      display: grid;
+      grid-template-columns: 132px 1fr;
+      gap: 16px;
+      align-items: center;
+      padding: 18px;
+    }
+
+    .ring {
+      --value: 70;
+      --ring-color: var(--teal);
+      width: 126px;
+      height: 126px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background:
+        radial-gradient(circle at center, #fff 0 58%, transparent 59%),
+        conic-gradient(var(--ring-color) calc(var(--value) * 1%), #edf0ec 0);
+    }
+
+    .ring strong {
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .score-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .score-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .kpi {
+      position: relative;
+      min-height: 128px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 15px;
+      overflow: hidden;
+    }
+
+    .kpi::before {
+      content: "";
+      position: absolute;
+      inset: 0 auto 0 0;
+      width: 5px;
+      background: var(--accent);
+    }
+
+    .kpi label {
+      display: block;
+      min-height: 36px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .kpi strong {
+      display: block;
+      margin-top: 12px;
+      font-size: 31px;
+      line-height: 1;
+    }
+
+    .kpi small {
+      display: inline-block;
+      margin-top: 10px;
+      border-radius: 999px;
+      padding: 5px 8px;
+      background: var(--badge);
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .section {
+      margin-bottom: 18px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 10px;
+    }
+
+    .section-head h3 {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.18;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 16px;
+    }
+
+    .executive-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .criterion-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .criterion-card {
+      min-height: 132px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 14px;
+    }
+
+    .criterion-card b {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      background: var(--soft);
+      color: var(--accent);
+    }
+
+    .criterion-card strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .criterion-card p {
+      margin: 8px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.42;
+    }
+
+    .dimension-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .dimension-row {
+      display: grid;
+      grid-template-columns: 170px 1fr 52px;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .dimension-row label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .bar {
+      min-height: 16px;
+      border-radius: 999px;
+      background: #edf0ec;
+      overflow: hidden;
+    }
+
+    .bar span {
+      display: block;
+      width: var(--width);
+      height: 100%;
+      border-radius: 999px;
+      background: var(--bar);
+    }
+
+    .dimension-row strong {
+      text-align: right;
+      font-size: 13px;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      align-items: stretch;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 118px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--paper);
+      padding: 12px;
+    }
+
+    .flow-step::after {
+      content: "";
+      position: absolute;
+      right: -10px;
+      top: 48px;
+      width: 10px;
+      height: 2px;
+      background: var(--line);
+    }
+
+    .flow-step:last-child::after {
+      display: none;
+    }
+
+    .flow-step span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .flow-step strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 15px;
+      line-height: 1.25;
+    }
+
+    .flow-step p {
+      margin: 7px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .action-card {
+      min-height: 210px;
+      display: grid;
+      align-content: space-between;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 13px;
+    }
+
+    .action-card.active {
+      border-color: var(--accent);
+      box-shadow: inset 0 0 0 2px var(--soft);
+    }
+
+    .action-card button {
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: inherit;
+      padding: 0;
+      text-align: left;
+    }
+
+    .action-top {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .action-num {
+      display: grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 6px;
+      background: var(--soft);
+      color: var(--accent);
+      font-weight: 800;
+      flex: 0 0 auto;
+    }
+
+    .action-card h4 {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.25;
+    }
+
+    .action-card p {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.42;
+    }
+
+    .pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 23px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      background: var(--soft);
+      color: var(--accent);
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .detail-cell {
+      border-left: 4px solid var(--accent);
+      background: var(--paper);
+      border-radius: 6px;
+      padding: 11px 12px;
+      min-height: 130px;
+    }
+
+    .detail-cell span {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .detail-cell p {
+      margin: 8px 0 0;
+      color: var(--ink);
+      font-size: 13px;
+      line-height: 1.43;
+    }
+
+    .department-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .dept-lanes {
+      display: grid;
+      gap: 11px;
+    }
+
+    .lane {
+      display: grid;
+      grid-template-columns: 180px 1fr 86px;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 10px;
+    }
+
+    .lane:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .lane label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.25;
+    }
+
+    .lane strong {
+      font-size: 13px;
+      text-align: right;
+    }
+
+    .evidence-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .evidence-item {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 12px;
+      border-left: 4px solid var(--accent);
+      background: var(--paper);
+      border-radius: 6px;
+      padding: 11px 12px;
+    }
+
+    .evidence-item b {
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .evidence-item strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .evidence-item span {
+      display: block;
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      min-width: 960px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    td {
+      font-size: 13px;
+      line-height: 1.37;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      min-height: 24px;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .status-good {
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .status-warn {
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .status-bad {
+      background: var(--rose-soft);
+      color: var(--rose);
+    }
+
+    .decision-stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .decision {
+      border-left: 4px solid var(--accent);
+      background: var(--paper);
+      border-radius: 6px;
+      padding: 11px 12px;
+    }
+
+    .decision strong {
+      display: block;
+      font-size: 13px;
+      line-height: 1.3;
+    }
+
+    .decision span {
+      display: block;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+
+    .empty {
+      display: none;
+      border: 1px dashed var(--line);
+      border-radius: 8px;
+      padding: 18px;
+      color: var(--muted);
+      background: rgba(255, 255, 255, 0.72);
+    }
+
+    .footnote {
+      margin: 20px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 1240px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .tabs {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+      }
+
+      .tab {
+        grid-template-columns: 1fr;
+      }
+
+      .tab-symbol {
+        display: none;
+      }
+
+      .criterion-box,
+      .source-box {
+        display: none;
+      }
+
+      .topbar,
+      .screen-header,
+      .executive-grid,
+      .department-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .kpis {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+
+      .criterion-grid,
+      .action-grid,
+      .detail-grid,
+      .flow {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .flow-step::after {
+        display: none;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .main {
+        padding: 18px 14px 32px;
+      }
+
+      .sidebar {
+        padding: 16px 12px;
+      }
+
+      .tabs,
+      .controls,
+      .kpis,
+      .criterion-grid,
+      .action-grid,
+      .detail-grid,
+      .flow {
+        grid-template-columns: 1fr;
+      }
+
+      h1 {
+        font-size: 34px;
+      }
+
+      .screen-title h2 {
+        font-size: 28px;
+      }
+
+      .score-card,
+      .dimension-row,
+      .lane,
+      .evidence-item {
+        grid-template-columns: 1fr;
+      }
+
+      .lane strong,
+      .dimension-row strong {
+        text-align: left;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">
+          <img src="./assets/barcelona-foment-logo.png" alt="Barcelona Foment de Ciutat, S.A." />
+        </div>
+        <div>
+          <strong>Portal d'adopció del model</strong>
+          <span>Criteri 1.5 dels plecs</span>
+        </div>
+      </div>
+
+      <span class="side-label">Vistes</span>
+      <nav class="tabs" aria-label="Vistes del portal">
+        <button class="tab active" type="button" data-screen="executiva">
+          <span class="tab-symbol" style="background: var(--teal);">EX</span>
+          <span>
+            <span class="tab-title">Executiva</span>
+            <span class="tab-subtitle">Visió transversal FdC</span>
+          </span>
+        </button>
+        <button class="tab" type="button" data-screen="pdb">
+          <span class="tab-symbol" style="background: var(--blue);">PB</span>
+          <span>
+            <span class="tab-title">Pla de Barris</span>
+            <span class="tab-subtitle">Adopció departamental</span>
+          </span>
+        </button>
+        <button class="tab" type="button" data-screen="peip">
+          <span class="tab-symbol" style="background: var(--violet);">PE</span>
+          <span>
+            <span class="tab-title">PEiP</span>
+            <span class="tab-subtitle">Adopció departamental</span>
+          </span>
+        </button>
+        <button class="tab" type="button" data-screen="ssjj">
+          <span class="tab-symbol" style="background: var(--amber);">SJ</span>
+          <span>
+            <span class="tab-title">SSJJ</span>
+            <span class="tab-subtitle">Model de contractació</span>
+          </span>
+        </button>
+        <button class="tab" type="button" data-screen="evidencies">
+          <span class="tab-symbol" style="background: var(--green);">1.5</span>
+          <span>
+            <span class="tab-title">Evidències</span>
+            <span class="tab-subtitle">Accions i lliuraments</span>
+          </span>
+        </button>
+      </nav>
+
+      <div class="criterion-box">
+        <span class="side-label" style="margin:0 0 8px;">Resposta al plec</span>
+        <strong>5 accions</strong>
+        <p>Seguiment i consolidació amb recollida, lliurament, continguts, punts de control i KPI/evidències per facilitar decisions als responsables de Foment.</p>
+      </div>
+
+      <div class="source-box">
+        <span class="side-label" style="margin:0;">Fonts futures</span>
+        <div class="source-list">
+          <div class="source-item"><span>Entrada i enquestes</span><b>Forms</b></div>
+          <div class="source-item"><span>Cartera i incidències</span><b>Lists</b></div>
+          <div class="source-item"><span>Tasques i terminis</span><b>Planner</b></div>
+          <div class="source-item"><span>Plantilles i versions</span><b>SharePoint</b></div>
+          <div class="source-item"><span>Alertes i escalats</span><b>Power Automate</b></div>
+          <div class="source-item"><span>QdC i reporting</span><b>Power BI</b></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">Seguiment i consolidació</p>
+          <h1>Portal executiu per contrastar l'adopció del nou model</h1>
+          <p class="subtitle">Disseny orientat al punt 1.5: accions operatives, dades recollides, lliuraments periòdics, evidències i decisions per a Foment de Ciutat.</p>
+        </div>
+
+        <form class="controls" aria-label="Filtres del portal">
+          <div class="control">
+            <label for="period">Període</label>
+            <select id="period">
+              <option>Fase 3 · Implantació</option>
+              <option>Fase 4 · Consolidació</option>
+              <option>Seguiment mensual</option>
+              <option>Comitè trimestral</option>
+            </select>
+          </div>
+          <div class="control">
+            <label for="action-filter">Acció 1.5</label>
+            <select id="action-filter">
+              <option value="all">Totes</option>
+              <option value="formacio">Formació</option>
+              <option value="comunicacio">Comunicació</option>
+              <option value="ambaixadors">Ambaixadors</option>
+              <option value="alertes">Alertes</option>
+              <option value="millora">Millora contínua</option>
+            </select>
+          </div>
+          <div class="control">
+            <label for="status-filter">Semàfor</label>
+            <select id="status-filter">
+              <option value="all">Tots</option>
+              <option value="good">En consolidació</option>
+              <option value="warn">A reforçar</option>
+              <option value="bad">Risc d'adopció</option>
+            </select>
+          </div>
+          <div class="control">
+            <label for="search">Cerca</label>
+            <input id="search" type="search" placeholder="Indicador, evidència, departament o decisió" />
+          </div>
+        </form>
+      </header>
+
+      <section id="screen-root" aria-live="polite"></section>
+      <p class="footnote">Prototip conceptual amb dades demostratives. La proposta s'alinea amb el criteri 1.5 del PCA, les fases 3 i 4 del PCT i el capítol 3 de la memòria tècnica: Teams, Forms, Lists, Planner, SharePoint, Power Automate i Power BI.</p>
+    </main>
+  </div>
+
+  <script>
+    const palette = {
+      good: ["var(--green)", "var(--green-soft)"],
+      warn: ["var(--amber)", "var(--amber-soft)"],
+      bad: ["var(--rose)", "var(--rose-soft)"],
+      info: ["var(--blue)", "var(--blue-soft)"],
+      teal: ["var(--teal)", "var(--teal-soft)"],
+      violet: ["var(--violet)", "var(--violet-soft)"]
+    };
+
+    const actions = [
+      {
+        id: "formacio",
+        num: "1",
+        title: "Pla de formació personalitzat",
+        mode: "Consolidació",
+        status: "good",
+        summary: "Capacita cada perfil en processos, eines i responsabilitats del model.",
+        collect: "Enquesta inicial per rol, assistència a sessions, ús de càpsules i dubtes freqüents.",
+        deliver: "Itineraris i càpsules a SharePoint; informe mensual d'adopció formativa.",
+        evidence: "% personal format per perfil, adopció d'eines, satisfacció i càpsules completades.",
+        decision: "Decidir reforços formatius per perfil i activar suport en equips amb menor autonomia.",
+        owner: "PMO / responsables departamentals",
+        timing: "M6-M10"
+      },
+      {
+        id: "comunicacio",
+        num: "2",
+        title: "Pla de comunicació del model",
+        mode: "Consolidació",
+        status: "warn",
+        summary: "Dona identitat al model i sosté un relat estable de canvis, beneficis i fites.",
+        collect: "Feedback d'equips, consultes recurrents, participació en canals i resposta a enquestes.",
+        deliver: "Novetats, FAQ i missatges clau a Teams/SharePoint; resum de clima a Direcció.",
+        evidence: "Reconeixement del model, comunicacions emeses, participació i friccions detectades.",
+        decision: "Ajustar missatges, prioritzar col·lectius amb resistència i reforçar beneficis pràctics.",
+        owner: "Comunicació del canvi / ambaixadors",
+        timing: "M6-M11"
+      },
+      {
+        id: "ambaixadors",
+        num: "3",
+        title: "Xarxa d'ambaixadors",
+        mode: "Seguiment",
+        status: "good",
+        summary: "Referents de proximitat a PdB, PEiP i SSJJ que resolen dubtes i canalitzen feedback.",
+        collect: "Dubtes, friccions, propostes de millora, bústia anònima i observacions de camp.",
+        deliver: "Informe mensual d'indicadors i trasllat trimestral a coordinació i Direcció.",
+        evidence: "Ambaixadors actius, dubtes resolts, propostes canalitzades i recurrència d'errors.",
+        decision: "Prioritzar suport per departament i convertir problemes recurrents en ajustos del model.",
+        owner: "Referents PdB, PEiP i SSJJ",
+        timing: "M6-M11"
+      },
+      {
+        id: "alertes",
+        num: "4",
+        title: "Seguiment intel·ligent amb alertes",
+        mode: "Seguiment",
+        status: "warn",
+        summary: "Supervisa desviacions de fites, terminis, incidències i ús del model amb llindars.",
+        collect: "Lectura recurrent de Planner, Lists i QdC mitjançant Power Automate.",
+        deliver: "Alertes automàtiques a Teams i informe periòdic d'indicadors intel·ligents.",
+        evidence: "Desviacions detectades, temps de resposta, incidències resoltes i alertes recurrents.",
+        decision: "Escalar riscos, redistribuir suport i concentrar la governança en les desviacions crítiques.",
+        owner: "PMO / responsables de servei",
+        timing: "M6-M11"
+      },
+      {
+        id: "millora",
+        num: "5",
+        title: "Comitè de millora contínua",
+        mode: "Seguiment",
+        status: "good",
+        summary: "Transforma KPI, alertes i feedback en decisions d'ajust i millores prioritzades.",
+        collect: "KPI del QdC, alertes, feedback d'ambaixadors, incidències i auditories de seguiment.",
+        deliver: "Informe mensual d'adopció i sessió trimestral de decisió amb Foment.",
+        evidence: "Millores implementades, accions tancades en termini, revisions i recurrència d'incidències.",
+        decision: "Aprovar ajustos del model, tancar canvis pendents i preparar autonomia operativa.",
+        owner: "Direcció FdC / Comitè de seguiment",
+        timing: "M8-M11"
+      }
+    ];
+
+    const screens = {
+      executiva: {
+        title: "Visió executiva transversal",
+        audience: "Consum principal: responsables de Foment de Ciutat",
+        focus: "Mostra si el model s'està adoptant correctament, quines dimensions requereixen reforç i quines decisions ha d'abordar el comitè.",
+        score: 74,
+        scoreText: "Adopció global",
+        scoreNote: "Combinació d'ús d'eines, qualitat de lliurables, governança, formació i resposta a alertes.",
+        color: "var(--teal)",
+        kpis: [
+          ["Ús homogeni del model", "76%", "+14 pp", "good"],
+          ["Lliurables amb plantilla estàndard", "82%", "+11 pp", "good"],
+          ["Disciplina de governança", "68%", "+6 pp", "warn"],
+          ["Alertes crítiques obertes", "7", "-3", "warn"],
+          ["Autonomia operativa", "61%", "+18 pp", "warn"]
+        ],
+        dimensions: [
+          ["Ús d'eines M365", 76, "var(--teal)"],
+          ["Qualitat de lliurables", 82, "var(--green)"],
+          ["Governança i acords", 68, "var(--amber)"],
+          ["Formació i autonomia", 71, "var(--blue)"],
+          ["Feedback i millora", 64, "var(--violet)"],
+          ["Coordinació SSJJ", 58, "var(--rose)"]
+        ],
+        decisions: [
+          ["Prioritzar SSJJ", "Reforçar entrada formal, checklist i temps de resposta en expedients amb urgència no planificada.", "warn"],
+          ["Tancar estàndards", "Aprovar llindars verd/groc/vermell dels KPI d'adopció abans del primer informe mensual.", "good"],
+          ["Activar reforç formatiu", "Planificar càpsules específiques per governança d'acords i control de versions.", "warn"]
+        ]
+      },
+      pdb: {
+        title: "Adopció a Pla de Barris",
+        audience: "Visió departamental: direcció i equip de Pla de Barris",
+        focus: "Contrasta si els projectes territorials utilitzen el cicle de vida, les plantilles, el registre de riscos i els espais de seguiment definits.",
+        score: 78,
+        scoreText: "Maduresa PdB",
+        scoreNote: "Bon ús de plantilles i fites; cal reforçar decisions pendents i traçabilitat d'acords territorials.",
+        color: "var(--blue)",
+        kpis: [
+          ["Projectes amb fitxa completa", "84%", "+12 pp", "good"],
+          ["Registres de risc actius", "71%", "+9 pp", "good"],
+          ["Actes amb acord i responsable", "69%", "+8 pp", "warn"],
+          ["Desviacions sense pla", "5", "-2", "warn"],
+          ["Dubtes resolts per ambaixador", "31", "+16", "good"]
+        ],
+        lanes: [
+          ["Entrada formal de projecte", 86, "var(--blue)", "Forms + Lists"],
+          ["Planificació i fites", 75, "var(--teal)", "Planner"],
+          ["Riscos i decisions", 66, "var(--amber)", "Lists + Teams"],
+          ["Govern documental", 81, "var(--green)", "SharePoint"],
+          ["Feedback i suport", 73, "var(--violet)", "Ambaixador PdB"]
+        ],
+        evidence: [
+          ["Mensual", "Mostra de projectes amb fitxa, riscos i fites", "Permet detectar equips o àmbits amb adopció parcial."],
+          ["Setmanal", "Alertes de fites vençudes i decisions pendents", "Activa suport presencial o escalat al comitè."],
+          ["Trimestral", "Evolució de qualitat d'actes territorials", "Valida si la governança queda documentada."]
+        ],
+        decisions: [
+          ["Acords territorials", "Unificar criteris d'acta i registre de decisions per reduir pèrdua de traçabilitat.", "warn"],
+          ["Suport focalitzat", "Assignar reforç als projectes amb fites endarrerides i registre incomplet.", "warn"]
+        ]
+      },
+      peip: {
+        title: "Adopció a Projectes Estratègics i Participació",
+        audience: "Visió departamental: direcció i equip de PEiP",
+        focus: "Mesura l'adopció en projectes amb alta coordinació interdepartamental, participació, retorn institucional i decisions estratègiques.",
+        score: 70,
+        scoreText: "Maduresa PEiP",
+        scoreNote: "Adopció adequada en planificació, amb marge de millora en dependències externes i tancament de decisions.",
+        color: "var(--violet)",
+        kpis: [
+          ["Projectes amb governança definida", "79%", "+8 pp", "good"],
+          ["Retorns documentats", "63%", "+10 pp", "warn"],
+          ["Dependències amb data compromesa", "58%", "+5 pp", "warn"],
+          ["Acords sense responsable", "6", "-2", "warn"],
+          ["Participació en comunicacions", "67%", "+13 pp", "good"]
+        ],
+        lanes: [
+          ["Alta i classificació", 77, "var(--violet)", "Forms + Lists"],
+          ["Participació i retorn", 63, "var(--blue)", "Teams + SharePoint"],
+          ["Dependències externes", 58, "var(--amber)", "Lists"],
+          ["Comitès i decisions", 66, "var(--teal)", "Teams"],
+          ["Comunicació del model", 72, "var(--green)", "SharePoint"]
+        ],
+        evidence: [
+          ["Mensual", "Mapa de dependències i decisions per projecte", "Facilita prioritzar desbloquejos amb altres àrees."],
+          ["Mensual", "Seguiment de retorns i evidències de participació", "Assegura coherència entre projecte i rendició de comptes."],
+          ["Trimestral", "Clima d'adopció i barreres comunicades", "Permet ajustar missatges i suport a perfils clau."]
+        ],
+        decisions: [
+          ["Dependències", "Fixar llindar d'escalat quan una dependència no té resposta en termini.", "warn"],
+          ["Retorn institucional", "Aprovar plantilla única de retorn i evidències per projectes estratègics.", "good"]
+        ]
+      },
+      ssjj: {
+        title: "Adopció a Serveis Jurídics",
+        audience: "Visió departamental: Direcció i equip de SSJJ",
+        focus: "Contrasta si el nou sistema de relació amb PdB i PEiP redueix entrades informals, retorns documentals, re-treball i desconeixement de càrrega.",
+        score: 62,
+        scoreText: "Maduresa SSJJ",
+        scoreNote: "La visibilitat de cua millora, però cal consolidar entrada formal, checklist documental i priorització d'urgències.",
+        color: "var(--amber)",
+        kpis: [
+          ["Sol·licituds completes a la primera", "61%", "+10 pp", "warn"],
+          ["Entrades fora de canal", "9", "-4", "bad"],
+          ["Retorns documentals", "24", "-7", "warn"],
+          ["Temps mitjà primera validació", "8,2 d", "-1,3 d", "warn"],
+          ["Expedients amb càrrega visible", "88%", "+18 pp", "good"]
+        ],
+        lanes: [
+          ["Entrada formal", 61, "var(--rose)", "Forms"],
+          ["Checklist documental", 68, "var(--amber)", "SharePoint + Lists"],
+          ["Cua i càrrega", 88, "var(--green)", "Planner + Lists"],
+          ["Retorns i esmenes", 59, "var(--blue)", "Teams"],
+          ["KPI de contractació", 72, "var(--teal)", "Power BI"]
+        ],
+        evidence: [
+          ["Setmanal", "Cua d'expedients per estat, responsable i data prevista", "Permet visualitzar càrrega i compromisos de termini."],
+          ["Mensual", "Retorns documentals per motiu i departament promotor", "Identifica patrons de re-treball i necessitats formatives."],
+          ["Mensual", "Sol·licituds urgents no planificades i impacte", "Facilita decisions de priorització i escalat."]
+        ],
+        decisions: [
+          ["Canal únic", "Bloquejar l'entrada d'expedients sense formulari i checklist mínim.", "bad"],
+          ["Priorització", "Aprovar criteris d'urgència i capacitat setmanal visible per als promotors.", "warn"]
+        ]
+      }
+    };
+
+    const evidenceRows = [
+      ["Pla de formació personalitzat", "Necessitat de capacitació desigual per perfil", "Enquesta inicial, assistència, dubtes, ús de materials", "SharePoint + informe mensual", "% personal format; satisfacció; adopció d'eines", "PMO / responsables", "good"],
+      ["Pla de comunicació", "Risc que el model es percebi com a canvi documental i no operatiu", "Feedback, participació, consultes recurrents, clima", "Teams/SharePoint + resum a Direcció", "Participació; reconeixement; friccions recurrents", "Comunicació del canvi", "warn"],
+      ["Xarxa d'ambaixadors", "Friccions de proximitat no detectades pels comitès", "Bústia, observacions, dubtes i propostes del terreny", "Informe mensual + trasllat trimestral", "Dubtes resolts; millores canalitzades; errors recurrents", "Ambaixadors", "good"],
+      ["Seguiment intel·ligent amb alertes", "Pèrdua de visibilitat sobre desviacions i incidències", "Planner, Lists i QdC amb llindars automàtics", "Alertes Teams + informe periòdic", "Desviacions; temps resposta; incidències resoltes", "PMO / responsables servei", "warn"],
+      ["Comitè de millora contínua", "Risc que el model no evolucioni amb l'ús real", "KPI, alertes, feedback, auditories i incidències", "Informe mensual + comitè trimestral", "Millores implementades; accions tancades; recurrència", "Direcció FdC", "good"]
+    ];
+
+    const state = {
+      screen: "executiva",
+      action: "all",
+      status: "all",
+      search: "",
+      selectedAction: "formacio"
+    };
+
+    const root = document.querySelector("#screen-root");
+    const tabs = document.querySelectorAll(".tab");
+    const actionFilter = document.querySelector("#action-filter");
+    const statusFilter = document.querySelector("#status-filter");
+    const search = document.querySelector("#search");
+
+    function styleVars(status) {
+      const [accent, soft] = palette[status] || palette.info;
+      return `--accent:${accent}; --soft:${soft}; --badge:${soft};`;
+    }
+
+    function statusClass(status) {
+      return status === "good" ? "status-good" : status === "bad" ? "status-bad" : "status-warn";
+    }
+
+    function statusLabel(status) {
+      return status === "good" ? "En consolidació" : status === "bad" ? "Risc d'adopció" : "A reforçar";
+    }
+
+    function visibleActions() {
+      const term = state.search.trim().toLowerCase();
+      return actions.filter((action) => {
+        const actionOk = state.action === "all" || action.id === state.action;
+        const statusOk = state.status === "all" || action.status === state.status;
+        const searchOk = !term || Object.values(action).join(" ").toLowerCase().includes(term);
+        return actionOk && statusOk && searchOk;
+      });
+    }
+
+    function visibleEvidenceRows() {
+      const term = state.search.trim().toLowerCase();
+      return evidenceRows.filter((row) => {
+        const action = actions.find((item) => item.title === row[0]);
+        const actionOk = state.action === "all" || action?.id === state.action;
+        const statusOk = state.status === "all" || row[6] === state.status;
+        const searchOk = !term || row.join(" ").toLowerCase().includes(term);
+        return actionOk && statusOk && searchOk;
+      });
+    }
+
+    function kpiCards(kpis) {
+      return `
+        <section class="kpis" aria-label="Indicadors principals">
+          ${kpis.map(([label, value, delta, status]) => `
+            <article class="kpi" style="${styleVars(status)}">
+              <label>${label}</label>
+              <strong>${value}</strong>
+              <small>${delta}</small>
+            </article>
+          `).join("")}
+        </section>
+      `;
+    }
+
+    function header(screen) {
+      return `
+        <section class="screen-header">
+          <div class="screen-title">
+            <span class="audience">${screen.audience}</span>
+            <h2>${screen.title}</h2>
+            <p>${screen.focus}</p>
+          </div>
+          <aside class="score-card">
+            <div class="ring" style="--value:${screen.score}; --ring-color:${screen.color};">
+              <strong>${screen.score}%</strong>
+            </div>
+            <div>
+              <span>${screen.scoreText}</span>
+              <p>${screen.scoreNote}</p>
+            </div>
+          </aside>
+        </section>
+      `;
+    }
+
+    function actionCards() {
+      const selected = actions.find((action) => action.id === state.selectedAction) || actions[0];
+      const filtered = visibleActions();
+      return `
+        <section class="section">
+          <div class="section-head">
+            <h3>Les 5 accions de seguiment i consolidació</h3>
+            <span>${filtered.length} accions visibles</span>
+          </div>
+          <div class="action-grid">
+            ${filtered.map((action) => `
+              <article class="action-card ${action.id === selected.id ? "active" : ""}" style="${styleVars(action.status)}">
+                <button type="button" data-action="${action.id}">
+                  <div>
+                    <div class="action-top">
+                      <span class="action-num">${action.num}</span>
+                      <span class="status ${statusClass(action.status)}">${statusLabel(action.status)}</span>
+                    </div>
+                    <h4 style="margin-top:12px;">${action.title}</h4>
+                    <p>${action.summary}</p>
+                  </div>
+                  <div class="pill-row">
+                    <span class="pill">${action.mode}</span>
+                    <span class="pill">${action.timing}</span>
+                  </div>
+                </button>
+              </article>
+            `).join("")}
+          </div>
+          <div class="empty" style="display:${filtered.length ? "none" : "block"};">Cap acció coincideix amb els filtres actuals.</div>
+        </section>
+
+        <section class="section">
+          <div class="section-head">
+            <h3>${selected.title}</h3>
+            <span>${selected.owner}</span>
+          </div>
+          <div class="panel detail-grid" style="${styleVars(selected.status)}">
+            <div class="detail-cell"><span>Recollida</span><p>${selected.collect}</p></div>
+            <div class="detail-cell"><span>Lliurament</span><p>${selected.deliver}</p></div>
+            <div class="detail-cell"><span>KPI / evidències</span><p>${selected.evidence}</p></div>
+            <div class="detail-cell"><span>Decisió habilitada</span><p>${selected.decision}</p></div>
+          </div>
+        </section>
+      `;
+    }
+
+    function renderExecutive() {
+      const screen = screens.executiva;
+      return `
+        ${header(screen)}
+        <section class="criterion-grid" aria-label="Eixos del criteri 1.5">
+          ${[
+            ["1", "Seguiment dels serveis", "Lectura contínua de KPI d'ús, qualitat, governança i incidències.", "teal"],
+            ["2", "Recollida d'informació", "Forms, Planner, Lists, SharePoint, Teams i feedback d'ambaixadors.", "info"],
+            ["3", "Lliurament i canals", "Power BI, informes mensuals, alertes Teams i comitès trimestrals.", "violet"],
+            ["4", "Continguts per decidir", "Riscos, desviacions, barreres, millores prioritzades i evidències.", "good"]
+          ].map(([num, title, text, tone]) => `
+            <article class="criterion-card" style="${styleVars(tone)}">
+              <b>${num}</b>
+              <strong>${title}</strong>
+              <p>${text}</p>
+            </article>
+          `).join("")}
+        </section>
+        ${kpiCards(screen.kpis)}
+        <section class="executive-grid">
+          <div>
+            <section class="section">
+              <div class="section-head">
+                <h3>Dimensions d'adopció</h3>
+                <span>${document.querySelector("#period").value}</span>
+              </div>
+              <div class="panel dimension-grid">
+                ${screen.dimensions.map(([label, value, color]) => `
+                  <div class="dimension-row">
+                    <label>${label}</label>
+                    <div class="bar"><span style="--width:${value}%; --bar:${color};"></span></div>
+                    <strong>${value}%</strong>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+            <section class="section">
+              <div class="section-head">
+                <h3>Arquitectura de dades i lliuraments</h3>
+                <span>Capítol 3 de la memòria tècnica</span>
+              </div>
+              <div class="flow">
+                ${[
+                  ["Entrada", "Forms", "Projectes, peticions de contractació, enquestes i incidències."],
+                  ["Registre", "Lists + Planner", "Cartera, expedients, responsables, fites, càrrega i estats."],
+                  ["Govern", "SharePoint", "Plantilles, versions, aprovacions i evidències documentals."],
+                  ["Automatització", "Power Automate", "Validacions, alertes, retorns i escalats a Teams."],
+                  ["Lliurament", "Power BI + Comitè", "QdC executiu, informe mensual i decisions de millora."]
+                ].map(([label, title, text]) => `
+                  <div class="flow-step">
+                    <span>${label}</span>
+                    <strong>${title}</strong>
+                    <p>${text}</p>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+          </div>
+          <aside>
+            <section class="section">
+              <div class="section-head">
+                <h3>Decisions executives</h3>
+                <span>Proper comitè</span>
+              </div>
+              <div class="panel decision-stack">
+                ${screen.decisions.map(([title, text, status]) => `
+                  <div class="decision" style="${styleVars(status)}">
+                    <strong>${title}</strong>
+                    <span>${text}</span>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+          </aside>
+        </section>
+        ${actionCards()}
+      `;
+    }
+
+    function renderDepartment(key) {
+      const screen = screens[key];
+      return `
+        ${header(screen)}
+        ${kpiCards(screen.kpis)}
+        <section class="department-grid">
+          <div>
+            <section class="section">
+              <div class="section-head">
+                <h3>Dimensions departamentals</h3>
+                <span>Visió particularitzada</span>
+              </div>
+              <div class="panel dept-lanes">
+                ${screen.lanes.map(([label, value, color, source]) => `
+                  <div class="lane">
+                    <label>${label}</label>
+                    <div class="bar"><span style="--width:${value}%; --bar:${color};"></span></div>
+                    <strong>${value}% · ${source}</strong>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+            <section class="section">
+              <div class="section-head">
+                <h3>Evidències departamentals</h3>
+                <span>Recollida i lliurament</span>
+              </div>
+              <div class="panel evidence-list">
+                ${screen.evidence.map(([period, title, text]) => `
+                  <div class="evidence-item" style="--accent:${screen.color};">
+                    <b>${period}</b>
+                    <div>
+                      <strong>${title}</strong>
+                      <span>${text}</span>
+                    </div>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+          </div>
+          <aside>
+            <section class="section">
+              <div class="section-head">
+                <h3>Decisions del departament</h3>
+                <span>Seguiment 1.5</span>
+              </div>
+              <div class="panel decision-stack">
+                ${screen.decisions.map(([title, text, status]) => `
+                  <div class="decision" style="${styleVars(status)}">
+                    <strong>${title}</strong>
+                    <span>${text}</span>
+                  </div>
+                `).join("")}
+              </div>
+            </section>
+          </aside>
+        </section>
+        ${actionCards()}
+      `;
+    }
+
+    function renderEvidence() {
+      const rows = visibleEvidenceRows();
+      return `
+        <section class="screen-header">
+          <div class="screen-title">
+            <span class="audience">Consum principal: equip redactor i responsables de Foment</span>
+            <h2>Matriu de resposta al criteri 1.5</h2>
+            <p>Converteix cada acció en una unitat verificable: problema que resol, informació que recull, canal de lliurament, continguts, KPI/evidències, responsable i semàfor.</p>
+          </div>
+          <aside class="score-card">
+            <div class="ring" style="--value:86; --ring-color:var(--green);">
+              <strong>86%</strong>
+            </div>
+            <div>
+              <span>Cobertura del criteri</span>
+              <p>Les accions cobreixen seguiment, recollida, lliurament, continguts i suport a la presa de decisions.</p>
+            </div>
+          </aside>
+        </section>
+        <section class="section">
+          <div class="section-head">
+            <h3>Accions, evidències i lliuraments</h3>
+            <span>${rows.length} registres visibles</span>
+          </div>
+          <div class="panel table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Acció</th>
+                  <th>Problema nuclear</th>
+                  <th>Recollida</th>
+                  <th>Lliurament</th>
+                  <th>KPI / evidències</th>
+                  <th>Responsable</th>
+                  <th>Semàfor</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rows.map((row) => `
+                  <tr>
+                    <td><strong>${row[0]}</strong></td>
+                    <td>${row[1]}</td>
+                    <td>${row[2]}</td>
+                    <td>${row[3]}</td>
+                    <td>${row[4]}</td>
+                    <td>${row[5]}</td>
+                    <td><span class="status ${statusClass(row[6])}">${statusLabel(row[6])}</span></td>
+                  </tr>
+                `).join("")}
+              </tbody>
+            </table>
+            <div class="empty" style="display:${rows.length ? "none" : "block"};">Cap evidència coincideix amb els filtres actuals.</div>
+          </div>
+        </section>
+        ${actionCards()}
+      `;
+    }
+
+    function bindActionButtons() {
+      root.querySelectorAll("[data-action]").forEach((button) => {
+        button.addEventListener("click", () => {
+          state.selectedAction = button.dataset.action;
+          render();
+        });
+      });
+    }
+
+    function render() {
+      tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.screen === state.screen));
+      if (state.screen === "executiva") {
+        root.innerHTML = renderExecutive();
+      } else if (state.screen === "evidencies") {
+        root.innerHTML = renderEvidence();
+      } else {
+        root.innerHTML = renderDepartment(state.screen);
+      }
+      bindActionButtons();
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        state.screen = tab.dataset.screen;
+        render();
+      });
+    });
+
+    actionFilter.addEventListener("change", (event) => {
+      state.action = event.target.value;
+      if (state.action !== "all") state.selectedAction = state.action;
+      render();
+    });
+
+    statusFilter.addEventListener("change", (event) => {
+      state.status = event.target.value;
+      render();
+    });
+
+    search.addEventListener("input", (event) => {
+      state.search = event.target.value;
+      render();
+    });
+
+    document.querySelector("#period").addEventListener("change", render);
+
+    render();
+  </script>
+</body>
+</html>
