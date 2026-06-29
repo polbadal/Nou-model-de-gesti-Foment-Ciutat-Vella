@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="ca">
 <head>
   <meta charset="utf-8" />
@@ -528,6 +528,7 @@
     }
 
     .bar {
+      height: 16px;
       min-height: 16px;
       border-radius: 999px;
       background: #edf0ec;
@@ -538,17 +539,22 @@
       display: block;
       width: var(--width);
       height: 100%;
+      min-height: 100%;
       border-radius: 999px;
       background: var(--bar);
     }
 
     .adoption-dimensions .bar {
-      min-height: 20px;
+      height: 22px;
+      min-height: 22px;
       background: #efefef;
       box-shadow: inset 0 0 0 1px #dedede;
     }
 
     .adoption-dimensions .bar span {
+      display: block;
+      height: 100%;
+      min-height: 100%;
       background: var(--teal);
     }
 
@@ -992,7 +998,7 @@
       }
 
       .tabs {
-        grid-template-columns: repeat(5, minmax(0, 1fr));
+        grid-template-columns: repeat(4, minmax(0, 1fr));
       }
 
       .tab {
@@ -1115,13 +1121,6 @@
           <span>
             <span class="tab-title">SSJJ</span>
             <span class="tab-subtitle">Model de contractació</span>
-          </span>
-        </button>
-        <button class="tab" type="button" data-screen="evidencies">
-          <span class="tab-symbol" style="background: var(--green);">1.5</span>
-          <span>
-            <span class="tab-title">Evidències</span>
-            <span class="tab-subtitle">Accions i lliuraments</span>
           </span>
         </button>
       </nav>
@@ -1440,14 +1439,6 @@
       }
     };
 
-    const evidenceRows = [
-      ["Pla de formació personalitzat", "Necessitat de capacitació desigual per perfil", "Enquesta inicial, assistència, dubtes, ús de materials", "SharePoint + informe mensual", "% personal format; satisfacció; adopció d'eines", "PMO / responsables", "good"],
-      ["Pla de comunicació", "Risc que el model es percebi com a canvi documental i no operatiu", "Feedback, participació, consultes recurrents, clima", "Teams/SharePoint + resum a Direcció", "Participació; reconeixement; friccions recurrents", "Comunicació del canvi", "warn"],
-      ["Xarxa d'ambaixadors", "Friccions de proximitat no detectades pels comitès", "Bústia, observacions, dubtes i propostes del terreny", "Informe mensual + trasllat trimestral", "Dubtes resolts; millores canalitzades; errors recurrents", "Ambaixadors", "good"],
-      ["Seguiment intel·ligent amb alertes", "Pèrdua de visibilitat sobre desviacions i incidències", "Planner, Lists i QdC amb llindars automàtics", "Alertes Teams + informe periòdic", "Desviacions; temps resposta; incidències resoltes", "PMO / responsables servei", "warn"],
-      ["Comitè de millora contínua", "Risc que el model no evolucioni amb l'ús real", "KPI, alertes, feedback, auditories i incidències", "Informe mensual + comitè trimestral", "Millores implementades; accions tancades; recurrència", "Direcció FdC", "good"]
-    ];
-
     const state = {
       screen: "executiva",
       action: "all",
@@ -1481,17 +1472,6 @@
         const actionOk = state.action === "all" || action.id === state.action;
         const statusOk = state.status === "all" || action.status === state.status;
         const searchOk = !term || Object.values(action).join(" ").toLowerCase().includes(term);
-        return actionOk && statusOk && searchOk;
-      });
-    }
-
-    function visibleEvidenceRows() {
-      const term = state.search.trim().toLowerCase();
-      return evidenceRows.filter((row) => {
-        const action = actions.find((item) => item.title === row[0]);
-        const actionOk = state.action === "all" || action?.id === state.action;
-        const statusOk = state.status === "all" || row[6] === state.status;
-        const searchOk = !term || row.join(" ").toLowerCase().includes(term);
         return actionOk && statusOk && searchOk;
       });
     }
@@ -1646,7 +1626,7 @@
                 ${screen.dimensions.map(([label, value]) => `
                   <div class="dimension-row">
                     <label>${label}</label>
-                    <div class="bar" aria-label="${label}: ${value}%"><span style="--width:${value}%;"></span></div>
+                    <div class="bar" aria-label="${label}: ${value}%"><span style="width:${value}%;"></span></div>
                     <strong>${value}%</strong>
                   </div>
                 `).join("")}
@@ -1674,7 +1654,6 @@
                 `).join("")}
               </div>
             </section>
-            ${indicatorSection(screen, "Indicadors particulars d'adopció del departament", "Seguiment departamental")}
           </div>
           <aside>
             <section class="section">
@@ -1719,23 +1698,7 @@
                 `).join("")}
               </div>
             </section>
-            <section class="section">
-              <div class="section-head">
-                <h3>Evidències departamentals</h3>
-                <span>Recollida i lliurament</span>
-              </div>
-              <div class="panel evidence-list">
-                ${screen.evidence.map(([period, title, text]) => `
-                  <div class="evidence-item" style="--accent:${screen.color};">
-                    <b>${period}</b>
-                    <div>
-                      <strong>${title}</strong>
-                      <span>${text}</span>
-                    </div>
-                  </div>
-                `).join("")}
-              </div>
-            </section>
+            ${indicatorSection(screen, "Indicadors particulars d'adopció del departament", "Seguiment departamental")}
           </div>
           <aside>
             <section class="section">
@@ -1758,64 +1721,6 @@
       `;
     }
 
-    function renderEvidence() {
-      const rows = visibleEvidenceRows();
-      return `
-        <section class="screen-header">
-          <div class="screen-title">
-            <span class="audience">Consum principal: equip redactor i responsables de Foment</span>
-            <h2>Matriu de resposta al criteri 1.5</h2>
-            <p>Converteix cada acció en una unitat verificable: problema que resol, informació que recull, canal de lliurament, continguts, KPI/evidències, responsable i semàfor.</p>
-          </div>
-          <aside class="score-card">
-            <div class="ring" style="--value:86; --ring-color:var(--green);">
-              <strong>86%</strong>
-            </div>
-            <div>
-              <span>Cobertura del criteri</span>
-              <p>Les accions cobreixen seguiment, recollida, lliurament, continguts i suport a la presa de decisions.</p>
-            </div>
-          </aside>
-        </section>
-        <section class="section">
-          <div class="section-head">
-            <h3>Accions, evidències i lliuraments</h3>
-            <span>${rows.length} registres visibles</span>
-          </div>
-          <div class="panel table-wrap">
-            <table>
-              <thead>
-                <tr>
-                  <th>Acció</th>
-                  <th>Problema nuclear</th>
-                  <th>Recollida</th>
-                  <th>Lliurament</th>
-                  <th>KPI / evidències</th>
-                  <th>Responsable</th>
-                  <th>Semàfor</th>
-                </tr>
-              </thead>
-              <tbody>
-                ${rows.map((row) => `
-                  <tr>
-                    <td><strong>${row[0]}</strong></td>
-                    <td>${row[1]}</td>
-                    <td>${row[2]}</td>
-                    <td>${row[3]}</td>
-                    <td>${row[4]}</td>
-                    <td>${row[5]}</td>
-                    <td><span class="status ${statusClass(row[6])}">${statusLabel(row[6])}</span></td>
-                  </tr>
-                `).join("")}
-              </tbody>
-            </table>
-            <div class="empty" style="display:${rows.length ? "none" : "block"};">Cap evidència coincideix amb els filtres actuals.</div>
-          </div>
-        </section>
-        ${actionCards()}
-      `;
-    }
-
     function bindActionButtons() {
       root.querySelectorAll("[data-action]").forEach((button) => {
         button.addEventListener("click", () => {
@@ -1829,8 +1734,6 @@
       tabs.forEach((tab) => tab.classList.toggle("active", tab.dataset.screen === state.screen));
       if (state.screen === "executiva") {
         root.innerHTML = renderExecutive();
-      } else if (state.screen === "evidencies") {
-        root.innerHTML = renderEvidence();
       } else {
         root.innerHTML = renderDepartment(state.screen);
       }
@@ -1866,3 +1769,4 @@
   </script>
 </body>
 </html>
+
